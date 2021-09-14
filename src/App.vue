@@ -1,39 +1,49 @@
 <script>
-import { mapActions } from 'vuex'
-import Layout from "./components/Layout.vue";
+import { mapActions, mapGetters, mapState } from 'vuex'
+
 import Header from "./components/Header.vue";
+import Scoreboard from "./components/Scoreboard.vue";
+import GameView from './views/GameView.vue';
 export default {
-    components:{Layout,Header},
+    components: { Header, Scoreboard, GameView },
     setup() {
         console.log(this);
     },
-    mounted(){
+    mounted() {
         console.log(this);
-        this.generate();
-        },
-    methods:{
+    },
+    methods: {
         ...mapActions([
-            'generate'
+            'start'
         ]),
+    },
+    computed: {
+        ...mapGetters(["score", "time"]),
+        ...mapState(["started"])
     }
 }
 </script>
 
 <template>
-<Header></Header>
-<main>
-    <Layout></Layout>
-</main>
+    <Header>
+        <div>Найдено пар: {{ score }}</div>
+        <div class="header-spacer"></div>
+        <button @click="start" class="header-btn">{{started?time:'Старт'}}</button>
+        <div class="header-spacer"></div>
+    </Header>
+    <main>
+        <GameView></GameView>
+    </main>
 </template>
 
 <style>
-body{
-    margin:0;
+body {
+    margin: 0;
 }
-main{
+main {
     padding: 1rem;
 }
-*{
+* {
     font-family: monospace;
 }
 </style>

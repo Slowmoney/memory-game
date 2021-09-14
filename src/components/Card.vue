@@ -35,6 +35,7 @@ export default defineComponent({
 .card {
     background-color: transparent;
     perspective: 1000px;
+    opacity: 1;
     &--deleted &-inner{
         display: none;
     }

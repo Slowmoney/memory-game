@@ -22,7 +22,7 @@ export default defineComponent({
     grid-template-columns: repeat(6, auto);
     grid-template-rows: repeat(6, auto);
     grid-gap: 1%;
-    max-width: calc(100vh - 70px);
+    max-width: calc(100vh - 90px);
     margin: auto;
     &__cell {
         aspect-ratio: 1/1;
