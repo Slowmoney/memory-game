@@ -20,7 +20,6 @@ export default defineComponent({
   <div @click="onClick" class="card" :class="{'card--active': this.data.isShowen, 'card--deleted': this.data.deleted}">
     <div class="card-inner" v-if="this.data">
       <div class="card-front">
-          <mdicon v-if="this.data.icon" :name="this.data.icon" />
       </div>
       <div class="card-back">
         <div class="card__icon">

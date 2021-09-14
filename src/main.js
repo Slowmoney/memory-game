@@ -10,7 +10,7 @@ createApp(App).use(store).use(mdiVue, {
 }).mount('#app')
 
 try {
-    store.state.scoreboard = JSON.parse(localStorage.getItem("scoreboard"))
+    store.state.scoreboard = JSON.parse(localStorage.getItem("scoreboard"))??[]
 } catch (error) {
     
 }

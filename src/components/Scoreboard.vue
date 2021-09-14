@@ -5,6 +5,11 @@ export default defineComponent({});
 </script>
 <template>
     <div class="scoreboard">
+        <div class="scoreboard__title">
+            Счёт
+            <div v-show="!$store.state.scoreboard||$store.state.scoreboard&&$store.state.scoreboard.length == 0">Игр пока нет. Нажмите старт что-бы начать.</div>
+            </div>
+        
         <div class="scoreboard-row" v-for="(e,i) in $store.state.scoreboard" :key="i">
             <div class="scoreboard-inner">
                 <div class="scoreboard__index">№ {{ i }}</div>
@@ -34,6 +39,10 @@ export default defineComponent({});
     }
     &__index {
         margin-right: 2em;
+    }
+    &__title{
+        font-size: large;
+        text-align: center;
     }
 }
 </style>

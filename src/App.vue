@@ -26,7 +26,7 @@ export default {
 
 <template>
     <Header>
-        <div>Найдено пар: {{ score }}</div>
+        <div v-show="started">Найдено пар: {{ score }}</div>
         <div class="header-spacer"></div>
         <button @click="start" class="header-btn">{{started?time:'Старт'}}</button>
         <div class="header-spacer"></div>

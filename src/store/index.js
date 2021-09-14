@@ -20,17 +20,12 @@ const variants = [
     "currency-eth"
 ]
 const size = 6
-const gameTime =  1000 * 60 * 1
+const gameTime =  1000 * 60 * 2
 let closeAllTimeout
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function getTime(dtime) {
-    const seconds = Math.floor((dtime / 1000) % 60);
-    const minutes = Math.floor((dtime / 1000 / 60) % 60);
-    return `${minutes}:${seconds}`
 }
 export const store = createStore({
     state() {
@@ -68,7 +63,7 @@ export const store = createStore({
         start({ dispatch, state, commit }) {
             state.started = true
             dispatch('generate')
-            state.timeEnd = Date.now() + gameTime
+            state.timeEnd = new Date(Date.now() + gameTime)
             dispatch("updateClock")
             clearInterval(state.timerInterval)
             state.timerInterval = setInterval(() => {
@@ -79,14 +74,15 @@ export const store = createStore({
             
             state.started = false
             clearInterval(state.timerInterval)
-            state.scoreboard.push({ score: getters.score, time: state.time })
+            const time = new Date(gameTime - ((state.timeEnd - Date.now())))
+            if (!state.scoreboard) state.scoreboard = []
+            state.scoreboard.push({ score: getters.score, time: `${time.getMinutes()}:${time.getSeconds()}` })
             localStorage.setItem("scoreboard", JSON.stringify(state.scoreboard))
             state.layout = []
-            state.time = getTime(gameTime)
         },
         updateClock({state, dispatch}) {
-            const dtime = state.timeEnd - Date.now()
-            state.time = getTime(dtime)
+            const dtime = new Date(state.timeEnd - Date.now())
+            state.time = `${dtime.getMinutes()}:${dtime.getSeconds()}`
             if ((dtime) <= 0 || state.layout.every(e => e.deleted)) {
                 clearInterval(state.timerInterval)
                 dispatch("stop")
@@ -117,6 +113,7 @@ export const store = createStore({
             const opened = state.layout.filter(e => e && e.isShowen && !e.deleted)
             if (opened.length == 2) {
                 if (opened[0].icon == opened[1].icon) {
+                    clearTimeout(closeAllTimeout)
                     setTimeout(() => {
                         commit('delete', opened[0].icon)
                     }, 1000);
