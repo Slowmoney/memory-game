@@ -1,26 +1,5 @@
 import { createStore } from 'vuex'
-const variants = [
-    "access-point",
-    "account",
-    "adjust",
-    "air-conditioner",
-    "airballoon",
-    "airplane",
-    "alarm",
-    "album",
-    "all-inclusive",
-    "alpha",
-    "alphabetical",
-    "altimeter",
-    "ambulance",
-    "amplifier",
-    "anchor",
-    "android",
-    "clock",
-    "currency-eth"
-]
-const size = 6
-const gameTime =  1000 * 60 * 2
+import { variants, size, gameTime } from '../config';
 let closeAllTimeout
 function getRandomInt(min, max) {
     min = Math.ceil(min);
