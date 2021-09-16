@@ -6,12 +6,6 @@ import Scoreboard from "./components/Scoreboard.vue";
 import GameView from './views/GameView.vue';
 export default {
     components: { Header, Scoreboard, GameView },
-    setup() {
-        console.log(this);
-    },
-    mounted() {
-        console.log(this);
-    },
     methods: {
         ...mapActions([
             'start'

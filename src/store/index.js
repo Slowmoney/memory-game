@@ -1,17 +1,16 @@
 import { createStore } from 'vuex'
 import { variants, size, gameTime } from '../config';
+import { getRandomInt } from '../utils';
+
 let closeAllTimeout
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 export const store = createStore({
     state() {
         return {
             layout: [],
+            scoreboard: [],
+            time: "",
             timeEnd: null,
-            scoreboard:[]
+            timerInterval: null
         }
     },
     getters: {
@@ -61,7 +60,7 @@ export const store = createStore({
         },
         updateClock({state, dispatch}) {
             const dtime = new Date(state.timeEnd - Date.now())
-            state.time = `${dtime.getMinutes()}:${dtime.getSeconds()}`
+            state.time = Intl.DateTimeFormat('en-AU', { minute: 'numeric', second: 'numeric' }).format(dtime)
             if ((dtime) <= 0 || state.layout.every(e => e.deleted)) {
                 clearInterval(state.timerInterval)
                 dispatch("stop")
@@ -69,7 +68,7 @@ export const store = createStore({
         },
         generate(context) {
             const icons = []
-            //свыбор иконок
+            //выбор иконок
             while (icons.length < size * size / 2) {
                 let rand = getRandomInt(0, variants.length - 1)
                 if (icons.indexOf(rand) !== -1)
@@ -86,7 +85,7 @@ export const store = createStore({
                 })
             })
         },
-        openCard({ state, commit, dispatch }, index) {
+        openCard({ state, commit }, index) {
             const target = state.layout.find(e => e && e.i == index)
             target.isShowen = true;
             const opened = state.layout.filter(e => e && e.isShowen && !e.deleted)
